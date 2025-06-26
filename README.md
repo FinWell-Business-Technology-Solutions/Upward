@@ -1,1 +1,1 @@
-# Upward- 🎉 Repo created and cloned successfully!
+# Upward- 🎉 yRepo created and cloned successfully!

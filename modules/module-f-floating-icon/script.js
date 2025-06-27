@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   badge.className = 'mod-f-hello';
 
   // ← Change your message here:
-  badge.textContent = '-Upward Advisors-';
+  badge.textContent = '-Upward+Advisors-';
 
   // (Optional) Add click behavior
   badge.addEventListener('click', () => {

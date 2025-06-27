@@ -1,38 +1,30 @@
-// loader.js – loads your CSS and JS fresh every time (no cache)
+// modules/module-f-floating-icon/loader.js
+// One-and-done loader: fetches & injects your badge CSS + JS without caching
 
 (async () => {
-  // 1) Fetch the latest CSS
+  const baseUrl = 'https://cdn.jsdelivr.net/gh/FinWell-Business-Technology-Solutions/Upward@main/modules/module-f-floating-icon';
+
+  // 1) Fetch and inject CSS
   try {
-    const cssResp = await fetch(
-      'https://raw.githubusercontent.com/FinWell-Business-Technology-Solutions/Upward/main/modules/module-f-floating-icon/style.css',
-      { cache: 'no-cache' }
-    );
-    if (cssResp.ok) {
-      const css = await cssResp.text();
-      const styleEl = document.createElement('style');
-      styleEl.textContent = css;
-      document.head.appendChild(styleEl);
-    } else {
-      console.error('Failed to load badge CSS', cssResp.status);
-    }
-  } catch (e) {
-    console.error('Error fetching badge CSS', e);
+    const resp = await fetch(`${baseUrl}/style.css`, { cache: 'reload' });
+    if (!resp.ok) throw new Error(`Status ${resp.status}`);
+    const cssText = await resp.text();
+    const styleEl = document.createElement('style');
+    styleEl.textContent = cssText;
+    document.head.appendChild(styleEl);
+    console.log('✅ Badge CSS injected');
+  } catch (err) {
+    console.error('❌ Badge CSS failed to load:', err);
   }
 
-  // 2) Fetch and run the latest JS
+  // 2) Fetch and execute JS
   try {
-    const jsResp = await fetch(
-      'https://raw.githubusercontent.com/FinWell-Business-Technology-Solutions/Upward/main/modules/module-f-floating-icon/script.js',
-      { cache: 'no-cache' }
-    );
-    if (jsResp.ok) {
-      const jsText = await jsResp.text();
-      // Evaluate it in global scope
-      new Function(jsText)();
-    } else {
-      console.error('Failed to load badge JS', jsResp.status);
-    }
-  } catch (e) {
-    console.error('Error fetching badge JS', e);
+    const resp = await fetch(`${baseUrl}/script.js`, { cache: 'reload' });
+    if (!resp.ok) throw new Error(`Status ${resp.status}`);
+    const jsText = await resp.text();
+    console.log('✅ Badge JS fetched, executing…');
+    new Function(jsText)();
+  } catch (err) {
+    console.error('❌ Badge JS failed to load:', err);
   }
 })();

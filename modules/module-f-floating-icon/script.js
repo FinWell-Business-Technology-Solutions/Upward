@@ -10,7 +10,7 @@ function createBadge() {
 
   const badge = document.createElement('div');
   badge.className = 'mod-f-hello';
-  badge.textContent = 'Hello, world!'; // editable text
+  badge.textContent = 'Upward Advisors'; // editable text
   
   // Ensure document.body exists before appending
   if (document.body) {

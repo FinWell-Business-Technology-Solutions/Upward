@@ -1,5 +1,6 @@
-// script.js – Fixed version with proper timing and positioning
-console.log('✅ badge script executing');
+// modules/module-f-floating-icon/script.js
+
+console.log('✅ module-f script loaded and executing');
 
 function createBadge() {
   // Check if badge already exists to prevent duplicates
@@ -8,10 +9,18 @@ function createBadge() {
     return;
   }
 
+  // Create the badge element
   const badge = document.createElement('div');
   badge.className = 'mod-f-hello';
-  badge.textContent = 'Upward Advisors'; // editable text
-  
+
+  // ← Change your message here:
+  badge.textContent = '-Upward+Advisors-';
+
+  // (Optional) Add click behavior
+  badge.addEventListener('click', () => {
+    console.log('Badge clicked!');
+  });
+
   // Ensure document.body exists before appending
   if (document.body) {
     document.body.appendChild(badge);
@@ -23,13 +32,13 @@ function createBadge() {
 
 // Multiple timing strategies to ensure the badge gets created
 if (document.readyState === 'loading') {
-  // DOM still loading
+  // DOM still loading (unlikely in Squarespace footer)
   document.addEventListener('DOMContentLoaded', createBadge);
 } else {
-  // DOM already loaded
+  // DOM already loaded (most common case)
   createBadge();
 }
 
-// Fallback timing
+// Fallback timing for safety
 setTimeout(createBadge, 100);
 setTimeout(createBadge, 500);

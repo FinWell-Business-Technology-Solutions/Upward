@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Squarespace Environment Simulator</title>
+    
+    <!-- Simulate Squarespace base styles -->
+    <style>
+        /* Reset and base styles that mimic Squarespace */
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            background: #fff;
+            overflow-x: hidden;
+        }
+        
+        /* Simulate Squarespace header area */
+        .simulated-header {
+            background: rgba(255,255,255,0.95);
+            padding: 20px;
+            position: relative;
+            z-index: 1000;
+            border-bottom: 1px solid #eee;
+        }
+        
+        /* Simulate main content area */
+        .simulated-content {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 200vh; /* Long page for scroll testing */
+        }
+        
+        /* Simulate footer */
+        .simulated-footer {
+            background: #f8f8f8;
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+        
+        /* Preview banner */
+        .preview-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #007ACC;
+            color: white;
+            padding: 5px 10px;
+            font-size: 12px;
+            text-align: center;
+            z-index: 99999;
+            font-family: monospace;
+        }
+        
+        /* Make room for preview banner */
+        body { padding-top: 30px; }
+        
+        /* Simulate some Squarespace-like content blocks */
+        .content-block {
+            margin: 40px 0;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+            margin: -60px -20px 40px -20px;
+        }
+        
+        .nav-placeholder {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-placeholder .logo {
+            font-weight: bold;
+            font-size: 24px;
+        }
+        
+        .nav-placeholder .nav-items {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-placeholder .nav-items a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+    </style>
+    
+    <!-- Simulate some common Squarespace dependencies -->
+    <script>
+        // Mock Squarespace environment
+        window.Squarespace = {
+            onInitialize: function(cb) { setTimeout(cb, 100); },
+            afterBodyLoad: function(cb) { setTimeout(cb, 200); }
+        };
+        
+        // Mock YUI (Squarespace uses this)
+        window.YUI = function() {
+            return {
+                use: function() { 
+                    var callback = arguments[arguments.length - 1];
+                    if (typeof callback === 'function') setTimeout(callback, 50);
+                }
+            };
+        };
+    </script>
+</head>
+<body>
+    <div class="preview-banner">
+        🔧 VS Code Preview | Squarespace Environment Simulator | Edit your files and see changes instantly
+    </div>
+
+    <!-- Simulate Squarespace header structure -->
+    <header class="simulated-header">
+        <div class="nav-placeholder">
+            <div class="logo">Your Logo</div>
+            <nav class="nav-items">
+                <a href="#" class="header-nav-item">Home</a>
+                <a href="#" class="header-nav-item">About</a>
+                <a href="#" class="header-nav-item">Services</a>
+                <a href="#" class="header-nav-item">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Simulate main content -->
+    <main class="simulated-content">
+        <div class="hero-section">
+            <h1>Welcome to Your Site</h1>
+            <p>This simulates a Squarespace page layout</p>
+        </div>
+        
+        <div class="content-block">
+            <h2>About Section</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        </div>
+        
+        <div class="content-block">
+            <h2>Services Section</h2>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </div>
+        
+        <div class="content-block">
+            <h2>Portfolio Section</h2>
+            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+        </div>
+        
+        <div class="content-block">
+            <h2>More Content</h2>
+            <p>Test your header/footer injections with this long page content. Scroll to test sticky elements.</p>
+        </div>
+    </main>
+
+    <!-- Simulate footer -->
+    <footer class="simulated-footer">
+        <p>&copy; 2024 Your Company. All rights reserved.</p>
+    </footer>
+
+    <!-- 
+    ==========================================
+    YOUR HEADER INJECTIONS GO HERE 
+    ==========================================
+    Copy your actual header code from Squarespace below:
+    -->
+    
+    <!-- Example: Your custom navigation CSS -->
+    <style>
+        /* Paste your header CSS here for testing */
+    </style>
+    
+    <!-- Example: Your custom navigation HTML -->
+    <!-- Paste your header HTML here for testing -->
+    
+    
+    <!-- 
+    ==========================================
+    YOUR FOOTER INJECTIONS GO HERE 
+    ==========================================
+    Copy your actual footer code from Squarespace below:
+    -->
+    
+    <!-- Your module loader -->
+    <link rel="stylesheet" href="./modules/module-f-floating-icon/style.css">
+    <script src="./modules/module-f-floating-icon/script.js"></script>
+    
+    <!-- Your other footer scripts -->
+    <!-- Paste your footer code here for testing -->
+    
+    <!-- Development helpers -->
+    <script>
+        console.log('🔧 Squarespace Simulator Ready');
+        
+        // Simulate Squarespace page load sequence
+        setTimeout(() => {
+            console.log('📄 Simulated page load complete');
+            
+            // Check for your injected elements
+            setTimeout(() => {
+                const customHeader = document.getElementById('custom-header');
+                const badge = document.querySelector('.mod-f-hello');
+                const overlay = document.getElementById('search-overlay');
+                
+                console.log('🔍 Custom header found:', !!customHeader);
+                console.log('🏷️ Badge found:', !!badge);
+                console.log('🔍 Search overlay found:', !!overlay);
+                
+                // Visual indicators for found elements
+                if (customHeader) {
+                    customHeader.style.outline = '2px dashed lime';
+                    setTimeout(() => customHeader.style.outline = '', 3000);
+                }
+                if (badge) {
+                    badge.style.outline = '2px dashed orange';
+                    setTimeout(() => badge.style.outline = '', 3000);
+                }
+            }, 1000);
+        }, 500);
+        
+        // Simulate scroll events for testing sticky headers
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                console.log('📜 Scroll position:', window.scrollY);
+            }, 100);
+        });
+    </script>
+</body>
+</html>

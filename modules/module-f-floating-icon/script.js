@@ -14,7 +14,7 @@ function createBadge() {
   badge.className = 'mod-f-hello';
 
   // ← Change your message here:
-  badge.textContent = '-Upward+Advisors-';
+  badge.textContent = 'BAM BAM';
 
   // (Optional) Add click behavior
   badge.addEventListener('click', () => {

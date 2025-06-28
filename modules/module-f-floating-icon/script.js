@@ -1,44 +1,81 @@
-// modules/module-f-floating-icon/script.js
+// Floating Hello World Icon JavaScript
 
-console.log('✅ module-f script loaded and executing');
-
-function createBadge() {
-  // Check if badge already exists to prevent duplicates
-  if (document.querySelector('.mod-f-hello')) {
-    console.log('Badge already exists, skipping creation');
-    return;
-  }
-
-  // Create the badge element
-  const badge = document.createElement('div');
-  badge.className = 'mod-f-hello';
-
-  // ← Change your message here:
-  badge.textContent = 'BAM BAM';
-
-  // (Optional) Add click behavior
-  badge.addEventListener('click', () => {
-    console.log('Badge clicked!');
-  });
-
-  // Ensure document.body exists before appending
-  if (document.body) {
-    document.body.appendChild(badge);
-    console.log('✅ Badge created and appended to body');
-  } else {
-    console.error('❌ document.body not available');
-  }
-}
-
-// Multiple timing strategies to ensure the badge gets created
-if (document.readyState === 'loading') {
-  // DOM still loading (unlikely in Squarespace footer)
-  document.addEventListener('DOMContentLoaded', createBadge);
-} else {
-  // DOM already loaded (most common case)
-  createBadge();
-}
-
-// Fallback timing for safety
-setTimeout(createBadge, 100);
-setTimeout(createBadge, 500);
+// Wait for DOM to be ready
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Create the floating icon HTML if it doesn't exist
+    if (!document.getElementById('floatingIcon')) {
+        const floatingIconHTML = `
+            <a href="/home" class="floating-hello-icon" id="floatingIcon">
+                <div class="floating-content">
+                    <span class="wave-emoji">👋</span>
+                    <span class="hello-text">Hello World</span>
+                </div>
+            </a>
+        `;
+        
+        // Add to body
+        document.body.insertAdjacentHTML('beforeend', floatingIconHTML);
+    }
+    
+    // Get the floating icon element
+    const floatingIcon = document.getElementById('floatingIcon');
+    
+    if (floatingIcon) {
+        // Click animation
+        floatingIcon.addEventListener('click', function(e) {
+            // Add click animation
+            this.classList.add('clicked');
+            
+            // Remove click animation after it completes
+            setTimeout(() => {
+                this.classList.remove('clicked');
+            }, 600);
+            
+            // Let the link navigate normally
+        });
+        
+        // Optional: Add drag functionality
+        let isDragging = false;
+        let startX, startY, initialX, initialY;
+        
+        floatingIcon.addEventListener('mousedown', function(e) {
+            isDragging = true;
+            startX = e.clientX - floatingIcon.offsetLeft;
+            startY = e.clientY - floatingIcon.offsetTop;
+            initialX = e.clientX;
+            initialY = e.clientY;
+            e.preventDefault(); // Prevent text selection
+        });
+        
+        document.addEventListener('mousemove', function(e) {
+            if (isDragging) {
+                e.preventDefault();
+                const newX = e.clientX - startX;
+                const newY = e.clientY - startY;
+                
+                // Keep within viewport bounds
+                const maxX = window.innerWidth - floatingIcon.offsetWidth;
+                const maxY = window.innerHeight - floatingIcon.offsetHeight;
+                
+                floatingIcon.style.left = Math.max(0, Math.min(newX, maxX)) + 'px';
+                floatingIcon.style.top = Math.max(0, Math.min(newY, maxY)) + 'px';
+                floatingIcon.style.right = 'auto';
+                floatingIcon.style.bottom = 'auto';
+            }
+        });
+        
+        document.addEventListener('mouseup', function(e) {
+            if (isDragging) {
+                isDragging = false;
+                
+                // If it was just a click (not a drag), let the link work
+                const distance = Math.sqrt(
+                    Math.pow(e.clientX - initialX, 2) + Math.pow(e.clientY - initialY, 2)
+                );
+                
+                // If minimal movement, it's a click - let the default link behavior happen
+            }
+        });
+    }
+});

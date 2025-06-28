@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Local Squarespace Development</title>
+    
+    <!-- Squarespace-like base styles -->
+    <style>
+        /* Reset and base styles similar to Squarespace */
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            font-family: var(--paragraph-font-family, Arial, sans-serif);
+            line-height: 1.6;
+            color: #000;
+            background: #fff;
+        }
+        
+        /* Squarespace container system */
+        .container {
+            position: relative;
+        }
+        
+        .container--fluid {
+            width: 100%;
+        }
+        
+        /* Header structure matching your site */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0);
+            transition: all 0.3s ease;
+        }
+        
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--header-vert-padding, 0.1vw) var(--sqs-site-gutter, 4vw);
+            max-width: var(--maxPageWidth, 1200px);
+            margin: 0 auto;
+        }
+        
+        .header-title-logo img {
+            height: var(--header-logo-height, 75px);
+            width: auto;
+        }
+        
+        .header-actions .btn {
+            padding: 12px 24px;
+            border: 2px solid;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn--border {
+            background: transparent;
+            color: white;
+            border-color: white;
+        }
+        
+        .btn--border:hover {
+            background: white;
+            color: black;
+        }
+        
+        /* Section system like Squarespace */
+        .page-section {
+            position: relative;
+            min-height: 50vh;
+        }
+        
+        .full-bleed-section {
+            width: 100vw;
+            margin-left: calc(50% - 50vw);
+        }
+        
+        .section-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+        }
+        
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            padding: calc(4vmax / 10) var(--pagePadding, 4vw);
+            max-width: var(--maxPageWidth, 1200px);
+            margin: 0 auto;
+        }
+        
+        /* Video background */
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        
+        /* Grid system similar to fluid engine */
+        .fluid-engine {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 20px;
+            align-items: center;
+            min-height: 60vh;
+        }
+        
+        @media (min-width: 768px) {
+            .fluid-engine {
+                grid-template-columns: repeat(24, 1fr);
+            }
+        }
+        
+        /* Typography matching your site */
+        h1 {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: bold;
+            line-height: 1.2;
+            margin: 0 0 1rem 0;
+        }
+        
+        h2 {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: bold;
+            margin: 0 0 1rem 0;
+        }
+        
+        h3 {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            font-weight: bold;
+            margin: 0 0 1rem 0;
+        }
+        
+        h4 {
+            font-size: clamp(1rem, 2.5vw, 1.4rem);
+            font-weight: bold;
+            margin: 0 0 0.5rem 0;
+        }
+        
+        /* Color themes matching your site */
+        .white {
+            background: white;
+            color: black;
+        }
+        
+        .bright {
+            background: #f8f8f8;
+            color: black;
+        }
+        
+        .dark {
+            background: #333;
+            color: white;
+        }
+        
+        .dark-bold {
+            background: #000;
+            color: white;
+        }
+        
+        .black {
+            background: #000;
+            color: white;
+        }
+        
+        /* Accent color from your site */
+        .accent-color {
+            color: #c9a54b;
+        }
+        
+        .text-white {
+            color: white;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        /* Overlay for video background */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 0;
+        }
+        
+        /* Hero section styling */
+        .hero-content {
+            grid-column: 1 / -1;
+            text-align: left;
+            z-index: 2;
+            position: relative;
+        }
+        
+        @media (min-width: 768px) {
+            .hero-content {
+                grid-column: 3 / 25;
+            }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 767px) {
+            .header-inner {
+                padding: 6vw;
+            }
+            
+            .content-wrapper {
+                padding: calc(6vmax / 10) 6vw;
+            }
+            
+            .fluid-engine {
+                gap: 15px;
+            }
+        }
+        
+        /* Custom development area */
+        .dev-area {
+            background: #f0f0f0;
+            border: 2px dashed #ccc;
+            padding: 40px;
+            margin: 40px 0;
+            text-align: center;
+            border-radius: 8px;
+        }
+        
+        .dev-area h3 {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .dev-area p {
+            color: #888;
+            font-style: italic;
+        }
+        
+        /* Logo styling */
+        .logo-section {
+            position: sticky;
+            top: calc(0px + var(--header-fixed-top-offset, 100px));
+            grid-column: span 3;
+            justify-self: end;
+            align-self: center;
+        }
+        
+        @media (max-width: 767px) {
+            .logo-section {
+                position: static;
+                grid-column: span 8;
+                justify-self: center;
+                margin: 20px 0;
+            }
+        }
+        
+        .logo-section img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header matching your Squarespace structure -->
+    <header class="header">
+        <div class="header-inner container--fluid">
+            <div class="header-title-logo">
+                <a href="/">
+                    <img src="https://images.squarespace-cdn.com/content/v1/68602c90b021310799476358/1751133345320-20YNLNGIGNCITA1DEI0J/resources_1.png?format=1500w" 
+                         alt="Upward Advisors" 
+                         style="height: 75px;">
+                </a>
+            </div>
+            
+            <div class="header-actions">
+                <a href="/donate" class="btn btn--border">Donate</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main content matching your page structure -->
+    <main class="container" style="margin-top: 0;">
+        
+        <!-- Hero section with video background -->
+        <section class="page-section full-bleed-section white" style="min-height: 100vh;">
+            <div class="section-background">
+                <!-- Replace with your video -->
+                <video class="video-background" autoplay muted loop>
+                    <source src="https://video.squarespace-cdn.com/content/v1/68602c90b021310799476358/1751133329293-U3QESAF3WIDG75I7GQQI/640x360" type="video/mp4">
+                </video>
+                <div class="overlay"></div>
+            </div>
+            
+            <div class="content-wrapper">
+                <div class="fluid-engine">
+                    <div class="hero-content">
+                        <h4 class="text-white"><strong>Spokane's Invitation to</strong></h4>
+                        <h1><span class="accent-color"><strong>EXPLORE </strong></span><span class="text-white"><strong>ENDLESS POSSIBILITIES</strong></span></h1>
+                        <h3 class="text-white"><strong>Enriching Lives With Real Estate</strong></h3>
+                    </div>
+                    
+                    <div class="logo-section">
+                        <img src="https://images.squarespace-cdn.com/content/v1/68602c90b021310799476358/1751133329290-YZRQMNJHHGDNYRAHP2A4/upwardadvisors_wordmarkwhite.png" 
+                             alt="Upward Advisors Wordmark">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Development area for your custom code -->
+        <section class="page-section bright">
+            <div class="content-wrapper">
+                <div class="dev-area">
+                    <h3>🚀 Your Development Area</h3>
+                    <p>Add your custom HTML, CSS, and JavaScript here.<br>
+                    This section will be replaced with your Squarespace code blocks.</p>
+                    
+                    <!-- Example: Replace this with your custom content -->
+                    <div style="margin-top: 30px;">
+                        <h2>Three Simple Steps Towards Success</h2>
+                        <!-- Add your pocket-view tabs or other custom components here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Another development section -->
+        <section class="page-section dark-bold">
+            <div class="content-wrapper">
+                <div class="dev-area" style="background: #222; border-color: #555;">
+                    <h3 style="color: white;">✨ Custom Component Area</h3>
+                    <p style="color: #ccc;">Perfect for testing expanding panels, custom forms, or interactive elements.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- JavaScript for interactive elements -->
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(0, 0, 0, 0.9)';
+            } else {
+                header.style.background = 'rgba(0, 0, 0, 0)';
+            }
+        });
+
+        // Development helper functions
+        function addCustomStyles(css) {
+            const style = document.createElement('style');
+            style.textContent = css;
+            document.head.appendChild(style);
+        }
+
+        function addCustomScript(js) {
+            const script = document.createElement('script');
+            script.textContent = js;
+            document.body.appendChild(script);
+        }
+
+        // Example usage for testing:
+        console.log('Squarespace Local Development Template Loaded!');
+        console.log('Use addCustomStyles() and addCustomScript() to test your code');
+        
+        // Add development helpers to window for easy access
+        window.addCustomStyles = addCustomStyles;
+        window.addCustomScript = addCustomScript;
+    </script>
+</body>
+</html>
